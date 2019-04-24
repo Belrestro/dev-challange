@@ -1,0 +1,49 @@
+{
+  "name": "rebel-command-center",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node --experimental-worker compiled/app.js",
+    "server": "npm run clean && npm run compile && npm start",
+    "prod": "npm run clean && npm run compile && npm run start",
+    "compile": "babel src -d compiled --source-maps inline",
+    "test": "jest",
+    "clean": "rm -rf ./compiled"
+  },
+  "keywords": [
+    "rebel",
+    "starship",
+    "gateway"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "connect-busboy": "0.0.2",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "mongodb": "^3.1.13",
+    "redis": "^2.8.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.16.0",
+    "jest": "^24.5.0"
+  },
+  "babel": {
+    "presets": [
+      [
+        "env",
+        {
+          "targets": {
+            "node": "current"
+          },
+          "NODE_OPTIONS": "--experimental-worker"
+        }
+      ]
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  mongodb:
+    image: 'bitnami/mongodb:latest'
+    restart: always
+    ports:
+      - '27017:27017'
+    volumes:
+      - 'mongo_data:/usr/share/mongodb/data'
+  redis:
+    image: redis:4.0.14-alpine
+    ports:
+      - '6379:6379'
+    restart: always
+    volumes:
+      - 'redis_data:/usr/share/redis/data'
+    
+  command-center:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: command-center:latest
+    links:
+      - mongodb
+      - redis
+    environment:
+        - SERVER_PORT=3001
+        - REDIS_HOST=redis
+        - REDIS_PORT=6379
+        - MONGO_DB_PORT=27017
+        - MONGO_DB_HOST=mongodb
+    depends_on:
+      - mongodb
+      - redis
+    ports:
+      - '3001:3001'
+
+volumes:
+  mongo_data:
+    driver: local
+  redis_data:
+    driver: local
